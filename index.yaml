@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  jenkins:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-12-29T16:09:57.149801549Z"
+    description: A Helm chart for Kubernetes
+    digest: 385bd8dd4d5c7e9fe89a57b0f0fcf2ccb043dc2db4aac203b35b00e349d88ce2
+    maintainers:
+    - email: sgoser@gmail.com
+      name: Sergey Harbach
+    name: jenkins
+    type: application
+    urls:
+    - https://sgoser.github.io/helm/helm-releases/jenkins-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-12-29T16:09:57.148731022Z"
