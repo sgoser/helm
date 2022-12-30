@@ -8,8 +8,6 @@ maintainers:
 
 # Jenkins configurations.
 jenkins:
-  username: admin
-  password: password
   config:
     yaml:
       credentials:

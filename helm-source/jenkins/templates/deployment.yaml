@@ -1,11 +1,5 @@
 ---
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ .Values.namespace }}
-
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: basic-security
@@ -16,10 +10,10 @@ data:
     import jenkins.model.*
     import hudson.security.*
     def instance = Jenkins.getInstance()
-    println "--> creating local user '{{ .Values.jenkins.username }}'"
-    def password = System.getenv("PASS")
+    def AdminUsername = System.getenv('JENKINS_USERNAME').toString().trim()
+    def AdminPassword = System.getenv('JENKINS_PASSWORD').toString().trim()
     def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-    hudsonRealm.createAccount('{{ .Values.jenkins.username }}',"{{ .Values.jenkins.password }}")
+    hudsonRealm.createAccount(AdminUsername,AdminPassword)
     instance.setSecurityRealm(hudsonRealm)
     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
     strategy.setAllowAnonymousRead(true)
@@ -131,6 +125,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: JENKINS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argo-secrets-jenkins
+                  key: jenkins-password
+            - name: JENKINS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: argo-secrets-jenkins
+                  key: jenkins-username
             - name: JAVA_OPTS
               value: "-Djenkins.install.runSetupWizard=false"
             - name: CASC_JENKINS_CONFIG
